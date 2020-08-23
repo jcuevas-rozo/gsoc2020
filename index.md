@@ -1,8 +1,11 @@
-## Welcome to GitHub Pages
+# Google Summer of Code 2020 - Final Report
 
-You can use the [editor on GitHub](https://github.com/jcuevas-rozo/gsoc2020/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Integration of Kenzo program with SimplicialSets
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Overview
+
+[This project](https://summerofcode.withgoogle.com/projects/#4580455350796288) consisted in improving the interface between the [Kenzo Program](https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/) and [SageMath](sagemath.org), whose initial version was worked in ticket [\# 27880](https://trac.sagemath.org/ticket/27880). That ticket makes it possible to communicate both computer algebra programs and enhances the SageMath system with new capabilities in algebraic topology, such as the computation of homotopy groups and some kind of spectral sequences, dealing in particular with simplicial objects of infinite nature.
+
 
 ### Markdown
 
