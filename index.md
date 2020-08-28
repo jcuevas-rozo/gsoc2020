@@ -12,9 +12,9 @@ Bearing in mind the SageMath development process by mean of an issue tracking sy
 
 ## [#29879 Linking Kenzo simplicial sets to SageMath ones](https://trac.sagemath.org/ticket/29879)
 
-This is the list of commits:
+This is the list of commits associated to the work done in the project:
 
-|Commit message (Expand) |	Author |	Age |	Files |	Lines |
+|Commit message |	Author |	Age |	Files |	Lines |
 |------------------------|----------|----------|----------|----------|
 | [Descriptions deleted in lines # optional - kenzo](https://git.sagemath.org/sage.git/commit/?h=015364eab2ace9139eff34605a8a84c6a3171c1b)  |	gh-jcuevas-rozo  |	2020-08-23  |	4 |	-23/+23 |
 | [doctests depending on Kenzo marked as optional](https://git.sagemath.org/sage.git/commit/?h=015364eab2ace9139eff34605a8a84c6a3171c1b&id=721a797ff5659dc3112fc347ab296b046cd0adcf)	  | gh-jcuevas-rozo  |	2020-08-11	| 7	| -111/+156 |
@@ -32,11 +32,33 @@ This is the list of commits:
 | [Optional parameter kenzo_repr added to AbstractSimplex_class.__init__ and SimplicialSet_finite.__init__](https://git.sagemath.org/sage.git/commit/?h=015364eab2ace9139eff34605a8a84c6a3171c1b&id=e6642779d299c3eb5a96ffd64df0993e555190ce) |	gh-jcuevas-rozo |	2020-06-18 |	2 |	-16/+33 |
 | [Minor improvements to kenzo.py](https://git.sagemath.org/sage.git/commit/?h=015364eab2ace9139eff34605a8a84c6a3171c1b&id=ac1cc9c2770276c6b08cfaa795af1585c04cfee6) |	jcuevas-rozo |	2020-06-16 |	1	 | -5/+3 |
 
-## Files modified
+## Modified files
+
+In the files we were modifying along the development of the project, the next three lines were added to the respective preambles:
+```
+from sage.interfaces import kenzo
+from sage.features.kenzo import Kenzo
+kenzo_is_present = Kenzo().is_present()
+```
+Above lines allow us to know if the Kenzo system is installed and they provide a condition to the Kenzo representations of the Sage objects. The following items show some descriptions of the added functions and changes made on the Kenzo files and SageMath files: 
+
 
 ### [kenzo.py](https://github.com/sagemath/sage/blob/develop/src/sage/interfaces/kenzo.py)
 
 * 
+
+### [sage-interface.lisp](https://github.com/miguelmarco/kenzo/blob/testing/src/sage-interface.lisp)
+
+This is a file where the Kenzo functions are implemented in order to be imported in the file `kenzo.py`.
+
+*  The function `KDFFR` was added to provide the slot _:intr-dffr_ of the KenzoSimplicialSet in SageMath obtained by applying the function `KChainComplex` (in `kenzo.py`) to a ChainComplex in Sage.
+
+* The function `KINTR` was added to provide the slot _:intr_ of the KenzoChainComplexMorphism in SageMath obtained by applying the function `KMorphismChainComplex` (in `kenzo.py`) to a ChainComplexMorphism in Sage. In a similar way, the function `KSINTR` was added to provide the slot _:sintr_ of the KenzoSimplicialMorphism in SageMath obtained by applying the function `KSimplicialSetMorphism` (in `kenzo.py`) to a SimplicialSetMorphism in Sage.
+
+* The function `KCHAINCOMPLEXMORPHISM-AUX` was added to construct a chain complex morphism in Kenzo from the information given by the dictionary of matrices defining a ChainComplexMorphism in Sage. In a similar way, the function `KSIMPLICIALSETMORPHISM-AUX` was added to construct a simplicial set morphism in Kenzo from the information given by the dictionary of matrices defining a SimplicialSetMorphism in Sage
+
+* Some wrapper functions were implemented in order to use combinations (type _CMBN_ in Kenzo) in SageMath (`CMBN-AUX`, `DFFR-AUX1`, `EVALUATE-CMBN`) and wrapper functions to deal with abstract simplexes (type _ABSM_ in Kenzo) and abstract simplexes of cartesian products (type _CRPR_ in Kenzo) in SageMath were added (`ABSM-AUX`, `DEGENERATE-P`, `NON-DEGENERATE-P`, `CRPR-ABSM-AUX`, `ABSM1`, `ABSM2`, `KABSTRACTSIMPLEX-AUX`) among other functions.
+
 
 ### [chain_complex.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/chain_complex.py)
 
