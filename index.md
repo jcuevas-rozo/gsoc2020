@@ -1,7 +1,3 @@
-# Google Summer of Code 2020 - Final Report
-
-## Integration of Kenzo program with SimplicialSets
-
 # Overview
 
 [This project](https://summerofcode.withgoogle.com/projects/#4580455350796288) consisted in improving the interface between the [Kenzo Program](https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/) and [SageMath](sagemath.org), whose initial version was worked in ticket [\# 27880](https://trac.sagemath.org/ticket/27880). That ticket makes it possible to communicate both computer algebra programs and enhances the SageMath system with new capabilities in algebraic topology, such as the computation of homotopy groups and some kind of spectral sequences, dealing in particular with simplicial objects of infinite nature.
@@ -14,7 +10,7 @@ Bearing in mind the SageMath development process by mean of an issue tracking sy
 
 This is the list of commits associated to the work done in the project:
 
-|Commit message |	Author |	Age |	Files |	Lines |
+| Commit message |	Author |	Age |	Files |	Lines |
 |------------------------|----------|----------|----------|----------|
 | [Descriptions deleted in lines # optional - kenzo](https://git.sagemath.org/sage.git/commit/?h=015364eab2ace9139eff34605a8a84c6a3171c1b)  |	gh-jcuevas-rozo  |	2020-08-23  |	4 |	-23/+23 |
 | [doctests depending on Kenzo marked as optional](https://git.sagemath.org/sage.git/commit/?h=015364eab2ace9139eff34605a8a84c6a3171c1b&id=721a797ff5659dc3112fc347ab296b046cd0adcf)	  | gh-jcuevas-rozo  |	2020-08-11	| 7	| -111/+156 |
@@ -62,15 +58,19 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 ### [chain_complex.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/chain_complex.py)
 
-* 
+* The \_kenzo\_repr\_ attribute was added to the class ChainComplex_class: when a ChainComplex in Sage has grading group the set of integer numbers and the degree of differential is -1, its Kenzo representation is constructed (these are restrictions given by the Kenzo system).
 
 ### [chain_complex_morphism.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/chain_complex_morphism.py)
 
-*
+* The \_kenzo\_repr\_ attribute was added to the class ChainComplexMorphism: if the source complex and the target complex have \_kenzo\_repr\_ attributes, the Kenzo representation of the morphism is constructed.
+
+* Different operations between ChainComplexMorphisms have Kenzo representations: the opposite of a morphism, sum of morphisms, composition of morphisms, multiplication by an integer number, substraction of morphisms. All of these operations have \_kenzo\_repr\_ attributes whenever the involved morphisms have Kenzo representations.
 
 ### [simplicial_set.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set.py)
 
-*
+* The \_kenzo\_repr\_ attribute was added to the class AbstractSimplex_class. This needed the implementation of the class KenzoAbstractSimplex in `kenzo.py`. Different methods of this class have the respective Kenzo representations: degeneracies, nondegenerate part of an abstract simplex, the product of abstract simplexes (this needed the implementation of the class KenzoCRPRSimplex in `kenzo.py`).
+
+* In the class SimplicialSet_arbitrary, the `join` method is not implemented, but in Kenzo this operation is available. The join of simplicial sets is created as a KenzoSimplicialSet whenever the onvolved simplicial sets have \_kenzo\_repr\_ attributes. In the class SimplicialSet_finite, the \_kenzo\_repr\_ attribute was also added.
 
 ### [simplicial_set_constructions.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_constructions.py)
 
