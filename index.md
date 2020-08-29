@@ -38,7 +38,6 @@ kenzo_is_present = Kenzo().is_present()
 ```
 Above lines allow us to know if the Kenzo system is installed and they provide a condition to the Kenzo representations of the Sage objects. The following items show some descriptions of the added functions and changes made on the Kenzo files and SageMath files: 
 
-
 ### [kenzo.py](https://github.com/sagemath/sage/blob/develop/src/sage/interfaces/kenzo.py)
 
 * 
@@ -60,11 +59,13 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 * The \_kenzo\_repr\_ attribute was added to the class ChainComplex_class: when a ChainComplex in Sage has grading group the set of integer numbers and the degree of differential is -1, its Kenzo representation is constructed (these are restrictions given by the Kenzo system).
 
+
 ### [chain_complex_morphism.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/chain_complex_morphism.py)
 
 * The \_kenzo\_repr\_ attribute was added to the class ChainComplexMorphism: if the source complex and the target complex have \_kenzo\_repr\_ attributes, the Kenzo representation of the morphism is constructed.
 
 * Different operations between ChainComplexMorphisms have Kenzo representations: the opposite of a morphism, sum of morphisms, composition of morphisms, multiplication by an integer number, substraction of morphisms. All of these operations have \_kenzo\_repr\_ attributes whenever the involved morphisms have Kenzo representations.
+
 
 ### [simplicial_set.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set.py)
 
@@ -72,13 +73,20 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 * In the class SimplicialSet_arbitrary, the `join` method is not implemented, but in Kenzo this operation is available. The join of simplicial sets is created as a KenzoSimplicialSet whenever the onvolved simplicial sets have \_kenzo\_repr\_ attributes. In the class SimplicialSet_finite, the \_kenzo\_repr\_ attribute was also added.
 
+
 ### [simplicial_set_constructions.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_constructions.py)
 
-*
+* In class `PullbackOfSimplicialSets_finite`, the stored information in attribute `self._translation` is used for "translate" the involved simplexes to their Kenzo equivalent abstract simplexes. Since the product of simplicial sets is implemented in SageMath as a pullback, this translation allows us to associate the \_kenzo\_repr\_ attribute to the class `ProductOfSimplicialSets`.
+
+* In classes `PushoutOfSimplicialSets_finite` and `PushoutOfSimplicialSets`, the \_kenzo\_repr\_ attribute was added bearing in mind that (by now) only pushouts of two morphisms are constructed in Kenzo.
+
+* The \_kenzo\_repr\_ attribute was also added to the classes `SmashProductOfSimplicialSets_finite` and `SmashProductOfSimplicialSets`, where the Kenzo analog is constructed if all the involved factors have their Kenzo representation. The same was made for classes `WedgeOfSimplicialSets` and `WedgeOfSimplicialSets_finite`.
+
+* If a simplicial set has \_kenzo\_repr\_ attribute, its suspension have a Kenzo representation (implemented in classes `SuspensionOfSimplicialSet` and `SuspensionOfSimplicialSet_finite`).
 
 ### [simplicial_set_examples.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_examples.py)
 
-*
+* In the function `Sphere` was assign the \_kenzo\_repr\_ attribute in order to construct a Kenzo sphere, which is possible when the dimension of the sphere is less than 15 (the maximal dimension allowed in Kenzo system). Also, in `Simplex` function the Kenzo analog (`DELTA` function) was added as the \_kenzo\_repr\_ attribute. In the function `RealProjectiveSpace` the \_kenzo\_repr\_ attribute was assigned allowing the construction of the analog finite or infinite dimensional real projective space in Kenzo.
 
 ### [simplicial_set_morphism.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_morphism.py)
 
