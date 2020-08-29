@@ -90,4 +90,12 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 ### [simplicial_set_morphism.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_morphism.py)
 
-*
+* In the class `SimplicialSetMorphism`, the \_kenzo\_repr\_ attribute is added when the domain and the codomain simplicial sets have Kenzo representations. Since the definition of a simplicial set morphism in SageMath is storaged in `self._dictionary`, we have used this information to construct the Kenzo representation of this morphisms
+
+* Some constructions involving simplicial set morphisms, like cones, suspensions and pushouts, which are implemented in SageMath, were assigned their respective  \_kenzo\_repr\_ attributes.
+
+
+
+
+
+
