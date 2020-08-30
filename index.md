@@ -36,11 +36,25 @@ from sage.interfaces import kenzo
 from sage.features.kenzo import Kenzo
 kenzo_is_present = Kenzo().is_present()
 ```
-Above lines allow us to know if the Kenzo system is installed and they provide a condition to the Kenzo representations of the Sage objects. The following items show some descriptions of the added functions and changes made on the Kenzo files and SageMath files: 
+Above lines allow us to know if the Kenzo system is installed and they provide a condition to the Kenzo representations of the Sage objects. The following items show some descriptions of the added functions and changes made on the Kenzo files and SageMath files:
+
 
 ### [kenzo.py](https://github.com/sagemath/sage/blob/develop/src/sage/interfaces/kenzo.py)
 
-* 
+This is the file where the wrapping functions are defined and implemented for Kenzo objects.
+
+* The building blocks for simplicial sets are abstract simplices. These objects are implemented in Kenzo in a special type `ABSM`. We considered important to create a class `KenzoAbstractSimplex` as a wrapper for this type of Kenzo objects. Different methods were implemented for this class: the non-degenerate part, the list of degeneracy operators applied to it (if they exist) and the cartesian product with other abstract simplices.
+
+* In Kenzo, the non-degenerate simplices of a cartesian product of simplicial sets are represented internally by an object of type `CRPR`. In order to wrap this objects, the class `KenzoCRPRSimplex` was created and a method to return the factors that generate the abstract simplex in the cartesian product was implemented.
+
+* Combinations in Kenzo are objects of type `CMBN` representing a sum of terms in a chain complex. The class `KenzoCombination` was implemented to wrap these objects and methods wrapping Kenzo functions dealing with combinations were also created: the opposite of a combination, the sum, substraction and scalar multiplication. The function `Kenzocmbn` was implemented to create an instance of `KenzoCombination` from an ECL object representing a combination.
+
+* In the class `KenzoChainComplexMorphism` we have added methods for the opposite of a morphism, the sum, substraction, composition and scalar multiplication of morphisms.
+
+* For simplicial set morphisms, we have created the class `KenzoSimplicialSetMorphism` to wrap simplicial set morphisms in Kenzo. Methods for computing the cone, the suspension and the pushout of simplicial set morphisms have been created to deal with these objects. The function `KSimplicialSetMorphism` was implemented to create a `KenzoSimplicialSetMorphism` from a `SimplicialSetMorphism` in SageMath.
+
+* The functions `KenzoId` and `IdNumber` were implemented in order to use the slot `:idnm` in some Kenzo objects (like, simplicial sets, chain complexes, morphisms, spectral sequences,...) to identify and recover the respective object in Kenzo. Also, the method `orgn` was implemented in classes were the Kenzo objects have `:orgn` slot.
+
 
 ### [sage-interface.lisp](https://github.com/miguelmarco/kenzo/blob/testing/src/sage-interface.lisp)
 
@@ -52,7 +66,7 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 * The function `KCHAINCOMPLEXMORPHISM-AUX` was added to construct a chain complex morphism in Kenzo from the information given by the dictionary of matrices defining a ChainComplexMorphism in Sage. In a similar way, the function `KSIMPLICIALSETMORPHISM-AUX` was added to construct a simplicial set morphism in Kenzo from the information given by the dictionary of matrices defining a SimplicialSetMorphism in Sage
 
-* Some wrapper functions were implemented in order to use combinations (type _CMBN_ in Kenzo) in SageMath (`CMBN-AUX`, `DFFR-AUX1`, `EVALUATE-CMBN`) and wrapper functions to deal with abstract simplexes (type _ABSM_ in Kenzo) and abstract simplexes of cartesian products (type _CRPR_ in Kenzo) in SageMath were added (`ABSM-AUX`, `DEGENERATE-P`, `NON-DEGENERATE-P`, `CRPR-ABSM-AUX`, `ABSM1`, `ABSM2`, `KABSTRACTSIMPLEX-AUX`) among other functions.
+* Some wrapper functions were implemented in order to use combinations (type _CMBN_ in Kenzo) in SageMath (`CMBN-AUX`, `DFFR-AUX1`, `EVALUATE-CMBN`) and wrapper functions to deal with abstract simplices (type _ABSM_ in Kenzo) and abstract simplices of cartesian products (type _CRPR_ in Kenzo) in SageMath were added (`ABSM-AUX`, `DEGENERATE-P`, `NON-DEGENERATE-P`, `CRPR-ABSM-AUX`, `ABSM1`, `ABSM2`, `KABSTRACTSIMPLEX-AUX`) among other functions.
 
 
 ### [chain_complex.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/chain_complex.py)
@@ -69,14 +83,14 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 ### [simplicial_set.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set.py)
 
-* The \_kenzo\_repr\_ attribute was added to the class AbstractSimplex_class. This needed the implementation of the class KenzoAbstractSimplex in `kenzo.py`. Different methods of this class have the respective Kenzo representations: degeneracies, nondegenerate part of an abstract simplex, the product of abstract simplexes (this needed the implementation of the class KenzoCRPRSimplex in `kenzo.py`).
+* The \_kenzo\_repr\_ attribute was added to the class AbstractSimplex_class. This needed the implementation of the class KenzoAbstractSimplex in `kenzo.py`. Different methods of this class have the respective Kenzo representations: degeneracies, nondegenerate part of an abstract simplex, the product of abstract simplices (this needed the implementation of the class KenzoCRPRSimplex in `kenzo.py`).
 
 * In the class SimplicialSet_arbitrary, the `join` method is not implemented, but in Kenzo this operation is available. The join of simplicial sets is created as a KenzoSimplicialSet whenever the onvolved simplicial sets have \_kenzo\_repr\_ attributes. In the class SimplicialSet_finite, the \_kenzo\_repr\_ attribute was also added.
 
 
 ### [simplicial_set_constructions.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_constructions.py)
 
-* In class `PullbackOfSimplicialSets_finite`, the stored information in attribute `self._translation` is used for "translate" the involved simplexes to their Kenzo equivalent abstract simplexes. Since the product of simplicial sets is implemented in SageMath as a pullback, this translation allows us to associate the \_kenzo\_repr\_ attribute to the class `ProductOfSimplicialSets`.
+* In class `PullbackOfSimplicialSets_finite`, the stored information in attribute `self._translation` is used for "translate" the involved simplices to their Kenzo equivalent abstract simplices. Since the product of simplicial sets is implemented in SageMath as a pullback, this translation allows us to associate the \_kenzo\_repr\_ attribute to the class `ProductOfSimplicialSets`.
 
 * In classes `PushoutOfSimplicialSets_finite` and `PushoutOfSimplicialSets`, the \_kenzo\_repr\_ attribute was added bearing in mind that (by now) only pushouts of two morphisms are constructed in Kenzo.
 
@@ -84,18 +98,14 @@ This is a file where the Kenzo functions are implemented in order to be imported
 
 * If a simplicial set has \_kenzo\_repr\_ attribute, its suspension have a Kenzo representation (implemented in classes `SuspensionOfSimplicialSet` and `SuspensionOfSimplicialSet_finite`).
 
+
 ### [simplicial_set_examples.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_examples.py)
 
 * In the function `Sphere` was assign the \_kenzo\_repr\_ attribute in order to construct a Kenzo sphere, which is possible when the dimension of the sphere is less than 15 (the maximal dimension allowed in Kenzo system). Also, in `Simplex` function the Kenzo analog (`DELTA` function) was added as the \_kenzo\_repr\_ attribute. In the function `RealProjectiveSpace` the \_kenzo\_repr\_ attribute was assigned allowing the construction of the analog finite or infinite dimensional real projective space in Kenzo.
+
 
 ### [simplicial_set_morphism.py](https://github.com/sagemath/sage/blob/develop/src/sage/homology/simplicial_set_morphism.py)
 
 * In the class `SimplicialSetMorphism`, the \_kenzo\_repr\_ attribute is added when the domain and the codomain simplicial sets have Kenzo representations. Since the definition of a simplicial set morphism in SageMath is storaged in `self._dictionary`, we have used this information to construct the Kenzo representation of this morphisms
 
 * Some constructions involving simplicial set morphisms, like cones, suspensions and pushouts, which are implemented in SageMath, were assigned their respective  \_kenzo\_repr\_ attributes.
-
-
-
-
-
-
