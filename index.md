@@ -4,7 +4,7 @@
 
 # Trac Ticket 
 
-Bearing in mind the SageMath development process by mean of an issue tracking system called Trac https://trac.sagemath.org, we have created a ''ticket''. This is the name given for an item on the server, where anyone can post on the trac server if a bug is found in SageMath, if new code is ready to be submitted or you want to review new code already written but not yet included in SageMath or if there are corrections for the documentation. Anyone may search or browse the tickets and for a list of recent changes, [Sage trac timeline](https://trac.sagemath.org/timeline) must be visited.
+Bearing in mind the SageMath development process by mean of an issue tracking system called [Trac](https://trac.sagemath.org), we have created a ''ticket''. This is the name given for an item on the server, where anyone can post on the trac server if a bug is found in SageMath, if new code is ready to be submitted or you want to review new code already written but not yet included in SageMath or if there are corrections for the documentation. Anyone may search or browse the tickets and for a list of recent changes, [Sage trac timeline](https://trac.sagemath.org/timeline) must be visited.
 
 ## [#29879 Linking Kenzo simplicial sets to SageMath ones](https://trac.sagemath.org/ticket/29879)
 
